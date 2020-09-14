@@ -93,11 +93,47 @@ class SortingRobot:
         return self._light == "ON"
 
     def sort(self):
-        """
-        Sort the robot's list.
-        """
-        # Fill this out
-        pass
+        # lets do a bubble sort and continue sorting until we reach the break
+        # condition.
+        while True:
+            # first see if the comparison is "None"
+            if self.compare_item() is None:
+                # if it is, turn off the light (in case its on)
+                self.set_light_off()
+                if self.can_move_right():
+                    # if we are able to move right, swap items and move right.
+                    self.swap_item()
+                    self.move_right()
+                else:
+                    # if we aren't able to move right, break.
+                    # this will only happen if the entire list is sorted,
+                    # because the None value will be held while the robot
+                    # is in the last position.
+                    break
+            else:
+                # but if the comparison is NOT "None",
+                if self.light_is_on():
+                    # if the light is on, just move left.
+                    # we'll continue moving left until we have reached the
+                    # "None" value we dropped into the list.
+                    self.move_left()
+                else:
+                    # if the light isn't on, check to see if the held item is
+                    # greater than the item in list at the robot's position.
+                    # if it is, swap them.
+                    if self.compare_item() == 1:
+                        self.swap_item()
+                    # then, if we are able to move right, move right and
+                    # compare the next item in the list.
+                    if self.can_move_right():
+                        self.move_right()
+                    # if we can't move right, then we have reached the end of the list.
+                    # so lets turn the light on to indicate we have found the lowest
+                    # value to the right of the None pointer, and we should place the
+                    # value in that spot.
+                    else:
+                        self.set_light_on()
+
 
 
 if __name__ == "__main__":
